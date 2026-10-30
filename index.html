@@ -52,6 +52,10 @@
       padding: 0;
       user-select: none;
     }
+    input, textarea {
+      user-select: text;
+      -webkit-user-select: text;
+    }
 
     body {
       background-color: var(--bg-dark);
@@ -437,6 +441,56 @@
       color: #000;
     }
 
+    /* Seletor de vidas (quantas chaves o torneio tem) */
+    .lives-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 1.3rem;
+    }
+    .lives-row-label {
+      font-family: var(--font-tech);
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+      margin-right: 4px;
+    }
+    .lives-btn {
+      background: #171822;
+      border: 1px solid #282a36;
+      color: var(--color-text-muted);
+      font-family: var(--font-tech);
+      padding: 8px 14px;
+      border-radius: 4px;
+      cursor: pointer;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      transition: all 0.2s;
+    }
+    .lives-btn strong {
+      font-size: 0.92rem;
+      color: #fff;
+      letter-spacing: 1px;
+    }
+    .lives-btn span {
+      font-size: 0.7rem;
+    }
+    .lives-btn:hover {
+      border-color: var(--color-primary);
+    }
+    .lives-btn.active {
+      border-color: var(--color-primary);
+      background: rgba(255, 84, 0, 0.14);
+      box-shadow: 0 0 12px rgba(255, 84, 0, 0.25);
+    }
+    .lives-btn.active strong {
+      color: var(--color-primary);
+    }
+
     .teams-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -549,6 +603,9 @@
     }
     .bracket-section.lower {
       border-left: 4px solid var(--color-valorant);
+    }
+    .bracket-section.lower2 {
+      border-left: 4px solid #b5179e;
     }
     .bracket-section.grand-final {
       border: 1px solid var(--color-accent-gold);
@@ -1150,6 +1207,94 @@
       display: flex;
       justify-content: flex-end;
       gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    /* Modal de colar lista de nomes */
+    .paste-textarea {
+      width: 100%;
+      height: 240px;
+      background: #0d0e14;
+      border: 1px solid #2e3146;
+      border-radius: 4px;
+      color: #fff;
+      font-family: var(--font-hud);
+      font-weight: 600;
+      font-size: 1.05rem;
+      padding: 10px 12px;
+      outline: none;
+      resize: vertical;
+    }
+    .paste-textarea:focus {
+      border-color: var(--color-primary);
+    }
+    .paste-info {
+      font-family: var(--font-tech);
+      font-size: 0.8rem;
+      color: var(--color-text-muted);
+      margin: 8px 0 1.2rem;
+    }
+    .paste-info strong {
+      color: var(--color-primary);
+    }
+
+    /* Modal de login do administrador */
+    .login-form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .login-input {
+      background: #0d0e14;
+      border: 1px solid #2e3146;
+      border-radius: 4px;
+      color: #fff;
+      font-family: var(--font-tech);
+      font-size: 0.95rem;
+      padding: 10px 12px;
+      outline: none;
+    }
+    .login-input:focus {
+      border-color: var(--color-primary);
+    }
+    .login-error {
+      min-height: 1.2em;
+      font-family: var(--font-tech);
+      font-size: 0.8rem;
+      color: var(--color-valorant);
+      margin-bottom: 6px;
+    }
+
+    /* Modo visualização (online, sem login): só acompanha */
+    body.view-only #configPanel,
+    body.view-only #btnToggleConfig,
+    body.view-only #btnQuickShuffle,
+    body.view-only #btnResetBracket,
+    body.view-only #btnExportJSON,
+    body.view-only .btn-score-duel,
+    body.view-only .winner-btn,
+    body.view-only .tactical-hint {
+      display: none !important;
+    }
+    body.view-only .team-row {
+      cursor: default;
+    }
+    .meta-tag .dot.live {
+      background: #2ec4b6;
+      box-shadow: 0 0 8px #2ec4b6;
+    }
+    .meta-tag .dot.offline {
+      background: var(--color-valorant);
+      box-shadow: 0 0 8px var(--color-valorant);
+    }
+    .stage-message {
+      font-family: var(--font-tech);
+      font-size: 1rem;
+      color: var(--color-text-muted);
+      text-align: center;
+      padding: 4rem 1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
 
     /* ==========================================================================
@@ -1351,6 +1496,64 @@
         padding: 1.2rem;
       }
     }
+
+    @media (max-width: 700px) {
+      .clubpro-header {
+        position: static;
+        height: auto;
+        flex-wrap: wrap;
+        gap: 10px;
+        padding: 10px 12px;
+      }
+      .brand-badge-info {
+        display: none;
+      }
+      .header-actions {
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      .btn-tactical {
+        font-size: 0.72rem;
+        padding: 7px 10px;
+      }
+      .tactical-subbar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+        padding: 8px 12px;
+      }
+      .subbar-left, .subbar-right {
+        flex-wrap: wrap;
+        gap: 6px 16px;
+      }
+      .main-wrapper {
+        padding: 1rem 0.75rem 4rem;
+      }
+      #captureArea {
+        padding: 0;
+      }
+      .bracket-section {
+        padding: 1rem;
+      }
+      .section-title-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+      }
+      .section-title {
+        font-size: 1.7rem;
+      }
+      .player-count-controller {
+        flex-wrap: wrap;
+      }
+      .team-name {
+        font-size: 1.15rem;
+      }
+      .screenshot-modal {
+        overflow-y: auto;
+        padding: 1rem;
+      }
+    }
   </style>
 </head>
 <body>
@@ -1390,7 +1593,7 @@
 
       <div class="brand-badge-info">
         <span class="brand-badge-title">GERENCIADOR DE TORNEIO</span>
-        <span class="brand-badge-sub">DUPLA ELIMINAÇÃO // DUELOS DE 10 ROUNDS</span>
+        <span class="brand-badge-sub" id="brandSystemLabel">DUPLA ELIMINAÇÃO // DUELOS DE 10 ROUNDS</span>
       </div>
     </div>
 
@@ -1414,6 +1617,7 @@
         </svg>
         Sortear Chave
       </button>
+      <button class="btn-tactical secondary" id="btnLogin" style="display:none;">🔒 Entrar (Admin)</button>
     </div>
   </header>
 
@@ -1422,7 +1626,11 @@
     <div class="subbar-left">
       <div class="meta-tag">
         <span class="dot"></span>
-        <span>SISTEMA: <span class="tag-val">DUPLA ELIMINAÇÃO (DOUBLE ELIM)</span></span>
+        <span>SISTEMA: <span class="tag-val" id="systemLabel">DUPLA ELIMINAÇÃO (DOUBLE ELIM)</span></span>
+      </div>
+      <div class="meta-tag" id="liveTag" style="display:none;">
+        <span class="dot live" id="liveDot"></span>
+        <span class="tag-val" id="liveLabel">CONECTANDO...</span>
       </div>
       <div class="meta-tag">
         <span>STATUS: <span class="tag-val" id="tournamentStatusLabel">AGUARDANDO SORTEIO</span></span>
@@ -1471,7 +1679,7 @@
         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14h2v2h-2v-2zm0-10h2v8h-2V6z"/>
       </svg>
       <div>
-        <strong>CONTROLE DE PARTIDAS:</strong> Clique em <strong>"Anotar Placar"</strong> em cada card para inserir os rounds exatos do duelo (ex: 6x4, 7x3, 10x0) ou clique diretamente no jogador vencedor. O perdedor da Chave Superior cairá para a Chave Inferior; perdedores na Chave Inferior são eliminados.
+        <strong>CONTROLE DE PARTIDAS:</strong> Clique em <strong>"Anotar Placar"</strong> em cada card para inserir os rounds exatos do duelo (ex: 6x4, 7x3, 10x0) ou clique diretamente no jogador vencedor. <span id="hintRulesText">O perdedor da Chave Superior cairá para a Chave Inferior; perdedores na Chave Inferior são eliminados.</span>
       </div>
     </div>
 
@@ -1508,6 +1716,14 @@
         </div>
       </div>
 
+      <!-- Vidas: quantas derrotas até ser eliminado (1, 2 ou 3 chaves) -->
+      <div class="lives-row">
+        <span class="lives-row-label">Vidas por jogador:</span>
+        <button class="lives-btn" data-lives="1"><strong>1 VIDA</strong><span>Só a chave principal</span></button>
+        <button class="lives-btn active" data-lives="2"><strong>2 VIDAS</strong><span>+ Chave inferior</span></button>
+        <button class="lives-btn" data-lives="3"><strong>3 VIDAS</strong><span>+ Inferior e Última Chance</span></button>
+      </div>
+
       <!-- Grid dinâmico de inputs de jogadores -->
       <div class="teams-grid" id="teamsInputGrid">
         <!-- Injetado dinamicamente via JS -->
@@ -1515,8 +1731,8 @@
 
       <div class="config-footer">
         <div class="preset-buttons">
+          <button class="btn-preset" id="btnPasteList">📋 Colar Lista de Nomes</button>
           <button class="btn-preset" id="btnClearNames">✕ Limpar Todos os Nomes</button>
-          <button class="btn-preset" id="btnFillSample">⚡ Preencher Automático (Jogador 1 a N)</button>
         </div>
 
         <button class="btn-tactical primary" id="btnGenerateTournament">
@@ -1533,48 +1749,8 @@
          ======================================================================== -->
     <div id="captureArea">
 
-      <!-- ÁREA DAS CHAVES (UPPER & LOWER COM GRANDE FINAL INTEGRADA) -->
-      <div class="bracket-stage-container">
-
-        <!-- 1. CHAVE SUPERIOR (UPPER BRACKET) COM GRANDE FINAL AO LADO -->
-        <section class="bracket-section upper">
-          <div class="section-title-bar">
-            <div class="section-title upper" style="color: #f59e0b;">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"/>
-              </svg>
-              CHAVE SUPERIOR (UPPER BRACKET)
-            </div>
-            <div class="section-legend">
-              <span style="color:#ffb703;">★ GRANDE FINAL POSICIONADA AO LADO DA FINAL UPPER</span>
-            </div>
-          </div>
-
-          <div class="bracket-rounds-wrapper" id="upperBracketWrapper">
-            <!-- Rounds injetados via JS (incluindo a coluna final da Grande Final) -->
-          </div>
-        </section>
-
-        <!-- 2. CHAVE INFERIOR (LOWER BRACKET) -->
-        <section class="bracket-section lower">
-          <div class="section-title-bar">
-            <div class="section-title lower" style="color: #f59e0b;">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"/>
-              </svg>
-              CHAVE INFERIOR (LOWER BRACKET)
-            </div>
-            <div class="section-legend">
-              <span style="color:#ff4655;">⚠️ Uma derrota nesta chave resulta em ELIMINAÇÃO DEFINITIVA</span>
-            </div>
-          </div>
-
-          <div class="bracket-rounds-wrapper" id="lowerBracketWrapper">
-            <!-- Rounds da Lower injetados via JS -->
-          </div>
-        </section>
-
-      </div>
+      <!-- ÁREA DAS CHAVES (SUPERIOR + INFERIORES, CONFORME AS VIDAS) — montada via JS -->
+      <div class="bracket-stage-container" id="bracketStage"></div>
 
     </div>
   </main>
@@ -1636,6 +1812,46 @@
   </div>
 
   <!-- ========================================================================
+       MODAL DE COLAR LISTA DE NOMES
+       ======================================================================== -->
+  <div class="score-modal-overlay" id="pasteModalOverlay">
+    <div class="score-modal">
+      <div class="score-modal-header">
+        <h3>COLAR LISTA</h3>
+        <span class="duel-badge">UM NOME POR LINHA</span>
+      </div>
+      <textarea class="paste-textarea" id="pasteTextarea" placeholder="Cole aqui a lista (WhatsApp, planilha, bloco de notas...)&#10;1. Fulano&#10;2. Ciclano&#10;3. Beltrano"></textarea>
+      <div class="paste-info" id="pasteInfo">Numeração (1. / 1- / 1)) e marcadores são removidos automaticamente.</div>
+      <div class="modal-actions">
+        <button class="btn-tactical secondary" onclick="closePasteModal()">Cancelar</button>
+        <button class="btn-tactical secondary" onclick="confirmPaste('append')">+ Adicionar ao final</button>
+        <button class="btn-tactical primary" onclick="confirmPaste('replace')">Substituir lista</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       MODAL DE LOGIN DO ADMINISTRADOR (MODO ONLINE)
+       ======================================================================== -->
+  <div class="score-modal-overlay" id="loginModalOverlay">
+    <div class="score-modal" style="max-width:420px;">
+      <div class="score-modal-header">
+        <h3>ACESSO ADMIN</h3>
+        <span class="duel-badge">EDITAR RESULTADOS</span>
+      </div>
+      <form class="login-form" id="loginForm">
+        <input type="email" class="login-input" id="loginEmail" placeholder="E-mail" autocomplete="username" required>
+        <input type="password" class="login-input" id="loginPassword" placeholder="Senha" autocomplete="current-password" required>
+        <div class="login-error" id="loginError"></div>
+        <div class="modal-actions">
+          <button type="button" class="btn-tactical secondary" onclick="closeLoginModal()">Cancelar</button>
+          <button type="submit" class="btn-tactical primary" id="btnLoginSubmit">Entrar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================================================
        MODAL DA ARTE DO CHAVEAMENTO (INSTAGRAM / YOUTUBE / TWITCH)
        ======================================================================== -->
   <div class="screenshot-preview-overlay" id="screenshotPreviewOverlay">
@@ -1657,6 +1873,15 @@
         <button class="btn-format" data-format="stories" onclick="switchPosterFormat('stories')">
           📲 Stories / Reels (9:16)
         </button>
+      </div>
+
+      <!-- Conteúdo: chave inteira ou só uma parte (nomes ficam maiores) -->
+      <div class="screenshot-format-selector" id="posterContentRow">
+        <span class="poster-opt-label">Conteúdo:</span>
+        <button class="btn-format active" data-content="all" onclick="switchPosterContent('all')">Chave completa</button>
+        <button class="btn-format" data-content="upper" onclick="switchPosterContent('upper')">▲ Só Superior + Final</button>
+        <button class="btn-format" data-content="lower" onclick="switchPosterContent('lower')" id="btnPosterLower">▼ Só Inferior</button>
+        <span class="poster-opt-label" style="color:var(--color-text-muted); font-size:0.75rem;">Dica: separar em 2 artes deixa os nomes bem maiores</span>
       </div>
 
       <!-- Tema e subtítulo -->
@@ -1727,6 +1952,8 @@
   <!-- ========================================================================
        LÓGICA JAVASCRIPT INTEGRADA (ENGINE DE DUPLA ELIMINAÇÃO DINÂMICA)
        ======================================================================== -->
+  <!-- Configuração do modo online (Firebase). Sem ela o site funciona só local. Veja ONLINE.md -->
+  <script src="firebase-config.js"></script>
   <script>
     /**
      * CLUB PRO TOURNAMENT ENGINE
@@ -1736,8 +1963,10 @@
     const EMBEDDED_CLUBPRO_LOGO = 'data:image/webp;base64,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';
     const State = {
       playerCount: 8,
+      lives: 2,         // 1 = só chave principal, 2 = + chave inferior, 3 = + última chance
+      names: [],        // Nomes digitados por vaga (mantidos ao mudar a quantidade)
       players: [],
-      roster: null,     // Ordem sorteada dos jogadores (mantida ao resetar resultados)
+      roster: null,     // Ordem sorteada (índices dos jogadores), mantida ao resetar resultados
       bracketSeed: 0,   // Semente do sorteio dos BYEs (mantida ao resetar resultados)
       matches: {},
       structure: null,
@@ -1827,8 +2056,32 @@
      *
      * `rnd` é um gerador com semente: a mesma semente monta a mesma chave (usado
      * ao resetar resultados sem sortear de novo).
+     *
+     * `lives` define quantas chaves existem: 1 = só a principal (eliminação simples),
+     * 2 = + inferior (dupla), 3 = + "Última Chance" alimentada pelos perdedores da
+     * inferior; o campeão dela desafia o campeão da inferior antes da Grande Final.
      */
-    function buildTournamentStructure(playerCount, rnd) {
+    const SECTION_INFO = {
+      upper:  { title: 'CHAVE SUPERIOR (UPPER BRACKET)', short: 'SUPERIOR', poster: '▲ CHAVE SUPERIOR' },
+      lower:  { title: 'CHAVE INFERIOR (LOWER BRACKET)', short: 'INFERIOR', poster: '▼ CHAVE INFERIOR' },
+      lower2: { title: 'ÚLTIMA CHANCE (LOWER 2)',        short: 'ÚLTIMA CHANCE', poster: '▼ ÚLTIMA CHANCE' }
+    };
+
+    const LIVES_INFO = {
+      1: { system: 'ELIMINAÇÃO SIMPLES (1 VIDA)', sub: 'ELIMINAÇÃO SIMPLES',
+           hint: 'Quem perde um duelo está eliminado; o vencedor da final é o campeão.' },
+      2: { system: 'DUPLA ELIMINAÇÃO (DOUBLE ELIM)', sub: 'DUPLA ELIMINAÇÃO',
+           hint: 'O perdedor da Chave Superior cairá para a Chave Inferior; perdedores na Chave Inferior são eliminados.' },
+      3: { system: 'TRIPLA ELIMINAÇÃO (3 VIDAS)', sub: 'TRIPLA ELIMINAÇÃO',
+           hint: 'O perdedor da Chave Superior cai para a Inferior; quem perde na Inferior vai para a Última Chance; perdedores na Última Chance são eliminados.' }
+    };
+
+    function sectionTitle(key, forPoster = false) {
+      if (key === 'upper' && State.lives === 1) return forPoster ? '▲ CHAVE PRINCIPAL' : 'CHAVE PRINCIPAL (ELIMINAÇÃO SIMPLES)';
+      return forPoster ? SECTION_INFO[key].poster : SECTION_INFO[key].title;
+    }
+
+    function buildTournamentStructure(playerCount, rnd, lives = 2) {
       const defs = {};
 
       // Liga uma fonte (jogador do sorteio, vencedor ou perdedor de partida) a uma vaga
@@ -1894,47 +2147,83 @@
       }
       const upperChampion = participants[0];
 
-      // Chave Inferior
-      const lowerRounds = [];
-      const playLower = (pairs) => {
-        const round = makeRound('LB', lowerRounds.length + 1, pairs);
-        lowerRounds.push(round.matches);
-        return round.winners;
-      };
-      let survivors = upperLosers[0];
-      for (let u = 1; u < upperLosers.length; u++) {
-        const dropped = upperLosers[u].slice().reverse();
-        while (survivors.length > dropped.length && survivors.length > 1) {
-          survivors = playLower(pairUp(survivors));
+      // Chave inferior genérica, alimentada pelos perdedores de cada rodada da chave de cima
+      function buildDropBracket(prefix, drops) {
+        const rounds = [];
+        const losers = [];
+        const play = (pairs) => {
+          const round = makeRound(prefix, rounds.length + 1, pairs);
+          rounds.push(round.matches);
+          losers.push(round.losers);
+          return round.winners;
+        };
+        drops = drops.filter(d => d.length);
+        let survivors = drops[0];
+        for (let u = 1; u < drops.length; u++) {
+          const dropped = drops[u].slice().reverse();
+          while (survivors.length > dropped.length && survivors.length > 1) {
+            survivors = play(pairUp(survivors));
+          }
+          const n = Math.min(survivors.length, dropped.length);
+          const pairs = [];
+          for (let i = 0; i < n; i++) pairs.push([survivors[i], dropped[i]]);
+          const rest = survivors.length > n ? survivors.slice(n) : dropped.slice(n);
+          pairs.push(...pairUp(rest));
+          survivors = play(pairs);
         }
-        const n = Math.min(survivors.length, dropped.length);
-        const pairs = [];
-        for (let i = 0; i < n; i++) pairs.push([survivors[i], dropped[i]]);
-        const rest = survivors.length > n ? survivors.slice(n) : dropped.slice(n);
-        pairs.push(...pairUp(rest));
-        survivors = playLower(pairs);
+        while (survivors.length > 1) survivors = play(pairUp(survivors));
+        return { rounds, losers, champion: survivors[0] };
       }
-      const lowerChampion = survivors[0];
 
-      const lower = lowerRounds.map((matches, i) => {
-        let name = `Rodada ${i + 1} Lower`;
-        if (i === lowerRounds.length - 1) name = "Final Lower";
-        else if (i === lowerRounds.length - 2) name = "Semifinal Lower";
+      const nameRounds = (rounds, suffix) => rounds.map((matches, i) => {
+        let name = `Rodada ${i + 1} ${suffix}`;
+        if (i === rounds.length - 1) name = `Final ${suffix}`;
+        else if (i === rounds.length - 2) name = `Semifinal ${suffix}`;
         return { name, matches };
       });
 
-      // Grande Final
-      const gf = { id: "GF_M1", isGrandFinal: true, nextWinner: null, nextLoser: null };
-      defs[gf.id] = gf;
-      link(upperChampion, { id: gf.id, slot: 'teamA' }, gf);
-      link(lowerChampion, { id: gf.id, slot: 'teamB' }, gf);
+      const sections = [{ key: 'upper', rounds: upper }];
+      const numbering = upper.flatMap(r => r.matches);   // ordem da numeração P1, P2...
+      let grandFinal = null;
+      let finalDef;
 
-      // Numeração P1, P2... (Upper, depois Lower, depois Grande Final)
-      let code = 1;
-      [...upper, ...lower].forEach(round => round.matches.forEach(d => { d.code = `P${code++}`; }));
-      gf.code = `P${code}`;
+      if (lives === 1) {
+        // Eliminação simples: a final da chave principal decide o título
+        const last = upper[upper.length - 1];
+        last.name = 'Grande Final';
+        finalDef = last.matches[0];
+        finalDef.isGrandFinal = true;
+      } else {
+        const lb = buildDropBracket('LB', upperLosers);
+        const lowerRounds = nameRounds(lb.rounds, 'Lower');
+        sections.push({ key: 'lower', rounds: lowerRounds });
+        numbering.push(...lb.rounds.flat());
+        let lowerChampion = lb.champion;
 
-      return { upper, lower, grandFinal: { name: "Grande Final", matches: [gf] } };
+        if (lives === 3) {
+          const lc = buildDropBracket('LC', lb.losers);
+          if (lc.rounds.length) {
+            sections.push({ key: 'lower2', rounds: nameRounds(lc.rounds, 'Últ. Chance') });
+            numbering.push(...lc.rounds.flat());
+          }
+          // Campeão da Inferior x campeão da Última Chance: quem vencer vai à Grande Final
+          const decider = makeRound('LB', lb.rounds.length + 1, [[lb.champion, lc.champion]]);
+          lowerRounds.push({ name: 'Decisão Lower', matches: decider.matches });
+          numbering.push(...decider.matches);
+          lowerChampion = decider.winners[0];
+        }
+
+        finalDef = { id: "GF_M1", isGrandFinal: true, nextWinner: null, nextLoser: null };
+        defs[finalDef.id] = finalDef;
+        link(upperChampion, { id: finalDef.id, slot: 'teamA' }, finalDef);
+        link(lowerChampion, { id: finalDef.id, slot: 'teamB' }, finalDef);
+        numbering.push(finalDef);
+        grandFinal = { name: "Grande Final", matches: [finalDef] };
+      }
+
+      numbering.forEach((d, i) => { d.code = `P${i + 1}`; });
+
+      return { sections, grandFinal, finalId: finalDef.id };
     }
 
     // =========================================================================
@@ -1961,25 +2250,118 @@
       container.innerHTML = "";
 
       for (let i = 0; i < State.playerCount; i++) {
-        const playerName = State.players[i] || `JOGADOR ${i + 1}`;
         const card = document.createElement("div");
         card.className = "team-input-card";
         card.innerHTML = `
           <div class="team-slot-badge">#${i + 1}</div>
-          <input type="text" class="team-input-field" data-index="${i}" value="${playerName}" placeholder="NOME DO JOGADOR ${i + 1}">
+          <input type="text" class="team-input-field" data-index="${i}" placeholder="JOGADOR ${i + 1}">
         `;
+        card.querySelector("input").value = State.names[i] || "";
         container.appendChild(card);
       }
-      syncPlayersFromInputs();
+      syncPlayers();
     }
 
-    function syncPlayersFromInputs() {
-      const inputs = document.querySelectorAll(".team-input-field");
-      State.players = [];
-      inputs.forEach(input => {
-        const val = input.value.trim().toUpperCase();
-        State.players.push(val || `JOGADOR ${parseInt(input.dataset.index) + 1}`);
+    // Vaga vazia vira "JOGADOR N"
+    function syncPlayers() {
+      State.players = Array.from({ length: State.playerCount }, (_, i) =>
+        (State.names[i] || "").trim().toUpperCase() || `JOGADOR ${i + 1}`);
+    }
+
+    // Atualiza os nomes na chave já sorteada, sem sortear de novo
+    function refreshNamesInBracket() {
+      syncPlayers();
+      Object.values(State.matches).forEach(m => {
+        ['teamA', 'teamB'].forEach(slot => {
+          const t = m[slot];
+          if (t && !t.isBye && State.players[t.pid] !== undefined) t.name = State.players[t.pid];
+        });
       });
+      if (State.structure) renderBracketDOM();
+    }
+
+    function hasResults() {
+      return Object.values(State.matches).some(m => m.status === 'finished' && !isByeMatch(m));
+    }
+
+    // Mudar a quantidade sorteia a chave de novo (os nomes digitados ficam)
+    function changePlayerCount(n) {
+      n = Math.max(4, Math.min(30, parseInt(n) || 8));
+      if (n === State.playerCount) return;
+      if (hasResults() && !confirm("Mudar o número de jogadores sorteia a chave de novo e apaga os resultados já anotados. Continuar?")) {
+        updatePlayerCountUI(State.playerCount);
+        return;
+      }
+      updatePlayerCountUI(n);
+      generateTournament(true);
+    }
+
+    /**
+     * Lê uma lista colada (WhatsApp, planilha...): um nome por linha (ou separados
+     * por vírgula/ponto e vírgula numa linha só), sem numeração nem marcadores.
+     */
+    function parseNameList(text) {
+      let lines = String(text || "").split(/\r?\n/);
+      if (lines.filter(l => l.trim()).length === 1 && /[,;]/.test(text)) lines = text.split(/[,;]/);
+      return lines
+        .map(l => l
+          .replace(/^\s*(?:\d{1,3}\s*[.)\-–—:ºª°]+|[-–—•*·>]+)\s*/, "")
+          .replace(/[✅✔☑️]/g, "")
+          .replace(/\t+/g, " ")
+          .trim())
+        .filter(Boolean)
+        .map(l => l.slice(0, 40));
+    }
+
+    // Grava os nomes a partir da vaga `start` e ajusta a quantidade para `count`
+    function applyNameList(list, start, count) {
+      list.slice(0, 30 - start).forEach((name, k) => { State.names[start + k] = name; });
+      State.names.length = Math.min(State.names.length, 30);
+      changePlayerCount(Math.max(4, Math.min(30, count)));
+      renderPlayerInputs();
+      refreshNamesInBracket();
+      saveState();
+    }
+
+    function openPasteModal() {
+      const ta = document.getElementById("pasteTextarea");
+      ta.value = "";
+      updatePasteInfo();
+      document.getElementById("pasteModalOverlay").classList.add("active");
+      setTimeout(() => ta.focus(), 50);
+    }
+
+    function closePasteModal() {
+      document.getElementById("pasteModalOverlay").classList.remove("active");
+    }
+
+    function updatePasteInfo() {
+      const n = parseNameList(document.getElementById("pasteTextarea").value).length;
+      document.getElementById("pasteInfo").innerHTML = n
+        ? `<strong>${n} ${n === 1 ? 'nome detectado' : 'nomes detectados'}</strong>${n > 30 ? ' (máximo de 30, o resto será ignorado)' : ''}`
+        : 'Numeração (1. / 1- / 1)) e marcadores são removidos automaticamente.';
+    }
+
+    function confirmPaste(mode) {
+      const list = parseNameList(document.getElementById("pasteTextarea").value);
+      if (!list.length) {
+        alert("Nenhum nome encontrado na lista.");
+        return;
+      }
+      closePasteModal();
+      if (mode === 'replace') {
+        State.names = [];
+        applyNameList(list, 0, list.length);
+      } else {
+        // Continua depois da última vaga preenchida
+        let start = 0;
+        for (let i = 0; i < State.playerCount; i++) if ((State.names[i] || "").trim()) start = i + 1;
+        applyNameList(list, start, Math.max(State.playerCount, start + list.length));
+      }
+    }
+
+    function escapeHtml(str) {
+      return String(str).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
     }
 
     function shuffleArray(array) {
@@ -2020,15 +2402,15 @@
         if (matchDef.byeSlot) m[matchDef.byeSlot] = { ...BYE_TEAM };
       }
 
-      structure.upper.forEach(round => {
-        round.matches.forEach(m => registerMatch(m, 'upper', round.name));
+      structure.sections.forEach(sec => {
+        sec.rounds.forEach(round => {
+          round.matches.forEach(m => registerMatch(m, sec.key, round.name));
+        });
       });
 
-      structure.lower.forEach(round => {
-        round.matches.forEach(m => registerMatch(m, 'lower', round.name));
-      });
-
-      structure.grandFinal.matches.forEach(m => registerMatch(m, 'grandFinal', structure.grandFinal.name));
+      if (structure.grandFinal) {
+        structure.grandFinal.matches.forEach(m => registerMatch(m, 'grandFinal', structure.grandFinal.name));
+      }
     }
 
     /**
@@ -2036,8 +2418,8 @@
      * o jogador que caiu na vaga de BYE avança direto por W.O.
      */
     function seedUpperRound1(roster) {
-      const r1Matches = State.structure.upper[0].matches;
-      const player = (i) => ({ name: roster[i], seed: i + 1, isBye: false, score: 0 });
+      const r1Matches = State.structure.sections[0].rounds[0].matches;
+      const player = (i) => ({ name: State.players[roster[i]], pid: roster[i], seed: i + 1, isBye: false, score: 0 });
 
       r1Matches.forEach(matchDef => {
         const m = State.matches[matchDef.id];
@@ -2088,22 +2470,64 @@
     // RENDERIZAÇÃO DOM DOS CONFRONTOS
     // =========================================================================
 
-    function renderBracketDOM() {
-      // 1. Chave Superior: adiciona a Grande Final como coluna final imediatamente após a Final Upper!
-      const grandFinalCol = {
-        name: "Grande Final",
-        isGrandFinalColumn: true,
-        matches: State.structure.grandFinal.matches
-      };
-      const upperWithGrandFinal = [...State.structure.upper, grandFinalCol];
+    const ICON_UP = '<path d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"/>';
+    const ICON_DOWN = '<path d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"/>';
 
-      renderBracketSection(upperWithGrandFinal, "upperBracketWrapper", "upper");
-      renderBracketSection(State.structure.lower, "lowerBracketWrapper", "lower");
+    function sectionLegend(key) {
+      const elim = '<span style="color:#ff4655;">⚠️ Uma derrota nesta chave resulta em ELIMINAÇÃO DEFINITIVA</span>';
+      if (key === 'upper') {
+        return State.structure.grandFinal
+          ? '<span style="color:#ffb703;">★ GRANDE FINAL POSICIONADA AO LADO DA FINAL UPPER</span>'
+          : elim;
+      }
+      if (key === 'lower' && State.lives === 3) {
+        return '<span style="color:#ff9e00;">⚠️ Perdeu aqui? Cai para a ÚLTIMA CHANCE</span>';
+      }
+      return elim;
+    }
+
+    function showStageMessage(text) {
+      document.getElementById("bracketStage").innerHTML = `<div class="stage-message">${escapeHtml(text)}</div>`;
+    }
+
+    function renderBracketDOM() {
+      const stage = document.getElementById("bracketStage");
+      const S = State.structure;
+      if (!S) return;
+
+      // Guarda a rolagem horizontal de cada chave para não "pular" a cada resultado
+      const scrolls = {};
+      stage.querySelectorAll(".bracket-section").forEach(el => { scrolls[el.dataset.key] = el.scrollLeft; });
+      stage.innerHTML = "";
+
+      S.sections.forEach(sec => {
+        if (!sec.rounds.length) return;
+        // A Grande Final entra como coluna final imediatamente após a Final Upper
+        const rounds = (sec.key === 'upper' && S.grandFinal)
+          ? [...sec.rounds, { name: "Grande Final", isGrandFinalColumn: true, matches: S.grandFinal.matches }]
+          : sec.rounds;
+
+        const el = document.createElement("section");
+        el.className = `bracket-section ${sec.key}`;
+        el.dataset.key = sec.key;
+        el.innerHTML = `
+          <div class="section-title-bar">
+            <div class="section-title ${sec.key}" style="color: #f59e0b;">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">${sec.key === 'upper' ? ICON_UP : ICON_DOWN}</svg>
+              ${sectionTitle(sec.key)}
+            </div>
+            <div class="section-legend">${sectionLegend(sec.key)}</div>
+          </div>
+          <div class="bracket-rounds-wrapper"></div>
+        `;
+        renderBracketSection(rounds, el.querySelector(".bracket-rounds-wrapper"), sec.key);
+        stage.appendChild(el);
+        el.scrollLeft = scrolls[sec.key] || 0;
+      });
       checkTournamentStatus();
     }
 
-    function renderBracketSection(roundsData, containerId, bracketType) {
-      const container = document.getElementById(containerId);
+    function renderBracketSection(roundsData, container, bracketType) {
       container.innerHTML = "";
 
       roundsData.forEach((round, roundIndex) => {
@@ -2137,12 +2561,16 @@
           }
         });
 
-        // Se for o último round da Lower (Final Lower), adiciona indicador de avanço para a Grande Final
-        if (bracketType === 'lower' && roundIndex === roundsData.length - 1) {
-          const advTag = document.createElement("div");
-          advTag.className = "lower-to-gf-tag";
-          advTag.innerHTML = `▲ VENCEDOR SOBE P/ A GRANDE FINAL`;
-          col.appendChild(advTag);
+        // Último round de uma chave inferior: indica para onde o vencedor vai
+        if (bracketType !== 'upper' && roundIndex === roundsData.length - 1) {
+          const next = round.matches[0] && round.matches[0].nextWinner;
+          const target = next && State.matches[next.id];
+          if (target) {
+            const advTag = document.createElement("div");
+            advTag.className = "lower-to-gf-tag";
+            advTag.innerHTML = target.isGrandFinal ? `▲ VENCEDOR SOBE P/ A GRANDE FINAL` : `▲ VENCEDOR VAI P/ A DECISÃO LOWER (${target.code})`;
+            col.appendChild(advTag);
+          }
         }
 
         col.appendChild(list);
@@ -2158,19 +2586,20 @@
       let footerHint = "";
       if (match.status === 'finished') {
         footerHint = `<span class="status-text completed">✓ CONCLUÍDO</span>`;
-      } else if (match.bracket === 'upper') {
-        footerHint = `<span class="status-text drop-warning">PERDEDOR CAI P/ LOWER</span>`;
-      } else if (match.bracket === 'lower') {
-        footerHint = `<span class="status-text elim-warning">PERDEDOR É ELIMINADO</span>`;
-      } else {
+      } else if (match.isGrandFinal) {
         footerHint = `<span class="status-text" style="color:var(--color-accent-gold);">DISPUTA PELO TROFÉU</span>`;
+      } else if (match.nextLoser && State.matches[match.nextLoser.id]) {
+        const dest = SECTION_INFO[State.matches[match.nextLoser.id].bracket];
+        footerHint = `<span class="status-text drop-warning">PERDEDOR CAI P/ ${dest ? dest.short : 'LOWER'}</span>`;
+      } else {
+        footerHint = `<span class="status-text elim-warning">PERDEDOR É ELIMINADO</span>`;
       }
 
       const teamAClass = getTeamRowClass(match, 'teamA');
       const teamBClass = getTeamRowClass(match, 'teamB');
 
-      const teamAName = match.teamA ? match.teamA.name : '<span style="color:#4b4e60">A definir</span>';
-      const teamBName = match.teamB ? match.teamB.name : '<span style="color:#4b4e60">A definir</span>';
+      const teamAName = match.teamA ? escapeHtml(match.teamA.name) : '<span style="color:#4b4e60">A definir</span>';
+      const teamBName = match.teamB ? escapeHtml(match.teamB.name) : '<span style="color:#4b4e60">A definir</span>';
 
       const teamASeed = match.teamA ? (match.teamA.isBye ? '-' : `#${match.teamA.seed}`) : '-';
       const teamBSeed = match.teamB ? (match.teamB.isBye ? '-' : `#${match.teamB.seed}`) : '-';
@@ -2184,7 +2613,7 @@
       const scoreA = scoreFor('teamA');
       const scoreB = scoreFor('teamB');
 
-      const canScore = match.teamA && match.teamB && !match.teamA.isBye && !match.teamB.isBye;
+      const canScore = canEdit() && match.teamA && match.teamB && !match.teamA.isBye && !match.teamB.isBye;
 
       card.innerHTML = `
         <div class="match-meta-bar">
@@ -2205,7 +2634,7 @@
           <div class="team-row ${teamAClass}" onclick="handleDirectWinner('${match.id}', 'teamA')">
             <div class="team-info">
               <span class="team-seed-pill">${teamASeed}</span>
-              <span class="team-name" title="${match.teamA ? match.teamA.name : ''}">${teamAName}</span>
+              <span class="team-name" title="${match.teamA ? escapeHtml(match.teamA.name) : ''}">${teamAName}</span>
             </div>
             <div class="score-action">
               <span class="score-badge">${scoreA}</span>
@@ -2219,7 +2648,7 @@
           <div class="team-row ${teamBClass}" onclick="handleDirectWinner('${match.id}', 'teamB')">
             <div class="team-info">
               <span class="team-seed-pill">${teamBSeed}</span>
-              <span class="team-name" title="${match.teamB ? match.teamB.name : ''}">${teamBName}</span>
+              <span class="team-name" title="${match.teamB ? escapeHtml(match.teamB.name) : ''}">${teamBName}</span>
             </div>
             <div class="score-action">
               <span class="score-badge">${scoreB}</span>
@@ -2234,7 +2663,7 @@
           ${footerHint}
           <span style="font-size:0.6rem; color:#4a4d5e;">${match.id}</span>
         </div>
-        ${match.isGrandFinal ? `<div class="grand-final-label">🏆 GRANDE FINAL (MD10)</div>` : ''}
+        ${match.isGrandFinal ? `<div class="grand-final-label">🏆 GRANDE FINAL</div>` : ''}
       `;
 
       return card;
@@ -2255,7 +2684,7 @@
 
     function openScoreModal(matchId) {
       const match = State.matches[matchId];
-      if (!match || !match.teamA || !match.teamB) return;
+      if (!canEdit() || !match || !match.teamA || !match.teamB) return;
 
       State.activeScoringMatchId = matchId;
       document.getElementById("modalMatchCode").innerText = `${match.code} // DUELO DE 10 ROUNDS`;
@@ -2303,7 +2732,7 @@
 
     function handleDirectWinner(matchId, chosenSlot) {
       const match = State.matches[matchId];
-      if (!match || !match.teamA || !match.teamB) return;
+      if (!canEdit() || !match || !match.teamA || !match.teamB) return;
       if (match.teamA.isBye || match.teamB.isBye) return;
 
       // Define pontuação padrão de 6x4 se clicou direto no card
@@ -2339,10 +2768,11 @@
       // 3. Grande Final (teamA vem da Upper, teamB vem da Lower)
       if (match.isGrandFinal) {
         AudioEngine.playWin();
-        triggerChampionCelebration(match[chosenSlot].name, chosenSlot === 'teamA' ? 'upper' : 'lower');
+        triggerChampionCelebration(match[chosenSlot].name, State.lives === 1 ? 'single' : (chosenSlot === 'teamA' ? 'upper' : 'lower'));
       }
 
       renderBracketDOM();
+      saveState();
     }
 
     function clearDownstream(match) {
@@ -2370,7 +2800,7 @@
       const allMatches = Object.values(State.matches);
       if (allMatches.length === 0) return;
 
-      const grandFinal = State.matches['GF_M1'];
+      const grandFinal = State.matches[State.structure.finalId];
       const statusLabel = document.getElementById("tournamentStatusLabel");
 
       if (grandFinal && grandFinal.status === 'finished') {
@@ -2413,13 +2843,17 @@
       }
     };
 
-    // Medidas da chave em unidades virtuais (depois escalada para caber na arte)
-    const PB = { BOX_W: 280, ROW_H: 38, LABEL_H: 26, VGAP: 26, HGAP: 64, SECTION_H: 50, SECTION_GAP: 36, SCORE_W: 46 };
+    // Medidas da chave em unidades virtuais (depois escalada para caber na arte).
+    // Linhas altas e colunas próximas: o nome ocupa mais espaço e sai maior na arte.
+    const PB = { BOX_W: 300, ROW_H: 50, LABEL_H: 30, VGAP: 22, HGAP: 40, SECTION_H: 56, SECTION_GAP: 32, SCORE_W: 54 };
     PB.BOX_H = PB.ROW_H * 2;
     PB.BLOCK_H = PB.BOX_H + PB.LABEL_H;
     PB.COL_W = PB.BOX_W + PB.HGAP;
 
-    const PosterState = { format: 'feed', theme: 'orange', eventName: 'CLUB PRO // DUELOS DE 10 ROUNDS', canvas: null, renderId: 0 };
+    // A arte é desenhada em 2x para ficar nítida ao dar zoom no celular
+    const POSTER_RES = 2;
+
+    const PosterState = { format: 'feed', theme: 'orange', content: 'all', eventName: 'CLUB PRO // DUELOS DE 10 ROUNDS', canvas: null, renderId: 0 };
     try {
       const savedName = localStorage.getItem('clubpro_poster_event');
       if (savedName) PosterState.eventName = savedName;
@@ -2463,9 +2897,12 @@
     function getTournamentSummary() {
       const all = Object.values(State.matches);
       const played = all.filter(m => m.status === 'finished' && m.teamA && m.teamB && !m.teamA.isBye && !m.teamB.isBye).length;
-      const gf = State.matches['GF_M1'];
-      const champion = (gf && gf.status === 'finished' && gf[gf.winner]) ? gf[gf.winner].name : null;
-      return { played, champion };
+      return { played, champion: getChampionName() };
+    }
+
+    function getChampionName() {
+      const gf = State.structure && State.matches[State.structure.finalId];
+      return (gf && gf.status === 'finished' && gf[gf.winner]) ? gf[gf.winner].name : null;
     }
 
     /**
@@ -2475,9 +2912,10 @@
      * Em formatos verticais (portrait) ela vai ao lado da Final Upper para
      * economizar uma coluna, e vgap estica a chave para preencher a altura.
      */
-    function computePosterLayout(portrait = false, vgap = PB.VGAP) {
+    function computePosterLayout(portrait = false, vgap = PB.VGAP, sectionKeys = null) {
       const S = State.structure;
       const pos = {};
+      const sections = S.sections.filter(sec => sec.rounds.length && (!sectionKeys || sectionKeys.includes(sec.key)));
 
       function layoutSection(rounds, top) {
         const step = PB.BLOCK_H + vgap;
@@ -2511,28 +2949,44 @@
         return bottom;
       }
 
-      const upperTop = PB.SECTION_H;
-      const upperBottom = layoutSection(S.upper, upperTop);
-      const lowerTop = upperBottom + PB.SECTION_GAP + PB.SECTION_H;
-      const lowerBottom = layoutSection(S.lower, lowerTop);
+      // Seções empilhadas (Superior, Inferior, Última Chance)
+      const sectionTops = [];
+      let bottom = 0;
+      sections.forEach((sec, i) => {
+        const top = i === 0 ? PB.SECTION_H : bottom + PB.SECTION_GAP + PB.SECTION_H;
+        sectionTops.push({ key: sec.key, top });
+        bottom = layoutSection(sec.rounds, top);
+      });
 
-      const ubFinal = S.upper[S.upper.length - 1].matches[0];
-      const lbFinal = S.lower[S.lower.length - 1].matches[0];
-      const gfId = S.grandFinal.matches[0].id;
-      let cols;
-      if (portrait) {
-        pos[gfId] = { x: S.upper.length * PB.COL_W, y: pos[ubFinal.id].y };
-        cols = Math.max(S.upper.length + 1, S.lower.length);
-      } else {
-        const gfCol = Math.max(S.upper.length, S.lower.length);
-        pos[gfId] = { x: gfCol * PB.COL_W, y: (pos[ubFinal.id].y + pos[lbFinal.id].y) / 2 };
-        cols = gfCol + 1;
+      let cols = Math.max(...sections.map(sec => sec.rounds.length));
+      const upperSec = sections.find(sec => sec.key === 'upper');
+      if (S.grandFinal && upperSec) {
+        const gfId = S.grandFinal.matches[0].id;
+        const ubFinal = upperSec.rounds[upperSec.rounds.length - 1].matches[0];
+        const feederYs = Object.values(State.matches)
+          .filter(m => m.nextWinner && m.nextWinner.id === gfId && pos[m.id])
+          .map(m => pos[m.id].y);
+        if (portrait || feederYs.length < 2) {
+          pos[gfId] = { x: upperSec.rounds.length * PB.COL_W, y: pos[ubFinal.id].y };
+          cols = Math.max(cols, upperSec.rounds.length + 1);
+        } else {
+          pos[gfId] = { x: cols * PB.COL_W, y: feederYs.reduce((a, b) => a + b, 0) / feederYs.length };
+          cols += 1;
+        }
       }
 
       // Quantos espaços verticais existem (para esticar a chave depois)
-      const gaps = Math.max(0, S.upper[0].matches.length - 1) + Math.max(0, S.lower[0].matches.length - 1);
+      const gaps = sections.reduce((acc, sec) => acc + Math.max(0, sec.rounds[0].matches.length - 1), 0);
 
-      return { pos, portrait, gaps, upperTop, lowerTop, width: (cols - 1) * PB.COL_W + PB.BOX_W, height: lowerBottom };
+      return { pos, portrait, gaps, sectionTops, width: (cols - 1) * PB.COL_W + PB.BOX_W, height: bottom };
+    }
+
+    // Seções incluídas na arte conforme a opção "Conteúdo"
+    function posterSectionKeys() {
+      const keys = State.structure.sections.map(sec => sec.key);
+      if (PosterState.content === 'upper') return ['upper'];
+      if (PosterState.content === 'lower' && keys.length > 1) return keys.filter(k => k !== 'upper');
+      return keys;
     }
 
     function chamferPath(ctx, x, y, w, h, c) {
@@ -2551,6 +3005,15 @@
       let t = text;
       while (t.length > 1 && ctx.measureText(t + '…').width > maxW) t = t.slice(0, -1);
       return t + '…';
+    }
+
+    // Tenta tamanhos de fonte decrescentes antes de cortar o texto com "…"
+    function fitTextSizes(ctx, text, maxW, sizes, weight, family) {
+      for (const size of sizes) {
+        ctx.font = `${weight} ${size}px ${family}`;
+        if (ctx.measureText(text).width <= maxW) return text;
+      }
+      return fitText(ctx, text, maxW);
     }
 
     // Aleatório com semente fixa: o fundo sai sempre igual entre uma arte e outra
@@ -2653,13 +3116,13 @@
       // Rótulo acima do card: código + rodada
       ctx.textAlign = 'left';
       ctx.textBaseline = 'alphabetic';
-      ctx.font = '700 17px "Chakra Petch", sans-serif';
+      ctx.font = '700 20px "Chakra Petch", sans-serif';
       ctx.fillStyle = m.isGrandFinal ? gold : '#ffffff';
       const code = m.isGrandFinal ? `${m.code} · GRANDE FINAL` : m.code;
       ctx.fillText(code, x, top - 9);
       if (!m.isGrandFinal) {
         const cw = ctx.measureText(code + '  ').width;
-        ctx.font = '600 15px "Chakra Petch", sans-serif';
+        ctx.font = '600 17px "Chakra Petch", sans-serif';
         ctx.fillStyle = theme.muted;
         ctx.fillText(fitText(ctx, m.roundName.toUpperCase(), PB.BOX_W - cw), x + cw, top - 9);
       }
@@ -2700,24 +3163,25 @@
           ctx.fillStyle = g;
           ctx.fillRect(x, ry, PB.BOX_W, PB.ROW_H);
           ctx.fillStyle = accent;
-          ctx.fillRect(x, ry, 5, PB.ROW_H);
+          ctx.fillRect(x, ry, 6, PB.ROW_H);
         }
 
         // Nome (ou origem do jogador, se ainda não definido)
-        let name, color, font = '700 22px Rajdhani, sans-serif';
+        const nameMaxW = PB.BOX_W - PB.SCORE_W - 26;
+        let name, color;
         if (team) {
           name = isBye ? 'BYE' : team.name;
           color = isBye ? '#4b4e60' : (isLoser ? '#6b6f82' : '#ffffff');
+          name = fitTextSizes(ctx, name, nameMaxW, [33, 29, 25, 22], 700, 'Rajdhani, sans-serif');
         } else {
           name = labels[`${m.id}|${slot}`] || 'A DEFINIR';
           color = '#8a8ea3';
-          font = '600 18px "Chakra Petch", sans-serif';
+          name = fitTextSizes(ctx, name, nameMaxW, [21, 18], 600, '"Chakra Petch", sans-serif');
         }
-        ctx.font = font;
         ctx.fillStyle = color;
         ctx.textBaseline = 'middle';
         ctx.textAlign = 'left';
-        ctx.fillText(fitText(ctx, name, PB.BOX_W - PB.SCORE_W - 28), x + 16, ry + PB.ROW_H / 2 + 1);
+        ctx.fillText(name, x + 16, ry + PB.ROW_H / 2 + 2);
 
         // Placar
         const sx = x + PB.BOX_W - PB.SCORE_W;
@@ -2731,7 +3195,7 @@
         }
         ctx.fillStyle = fill;
         ctx.fillRect(sx, ry, PB.SCORE_W, PB.ROW_H);
-        ctx.font = (scoreTxt.length > 2 ? '800 14px' : '800 22px') + ' "Chakra Petch", sans-serif';
+        ctx.font = (scoreTxt.length > 2 ? '800 17px' : '800 28px') + ' "Chakra Petch", sans-serif';
         ctx.fillStyle = txt;
         ctx.textAlign = 'center';
         ctx.fillText(scoreTxt, sx + PB.SCORE_W / 2, ry + PB.ROW_H / 2 + 1);
@@ -2757,10 +3221,9 @@
       // Títulos das seções
       ctx.textAlign = 'left';
       ctx.textBaseline = 'alphabetic';
-      ctx.font = '700 26px "Chakra Petch", sans-serif';
+      ctx.font = '700 32px "Chakra Petch", sans-serif';
       ctx.fillStyle = theme.accent;
-      ctx.fillText('▲ CHAVE SUPERIOR', 0, layout.upperTop - 20);
-      ctx.fillText('▼ CHAVE INFERIOR', 0, layout.lowerTop - 20);
+      layout.sectionTops.forEach(({ key, top }) => ctx.fillText(sectionTitle(key, true), 0, top - 22));
 
       // Conectores (só o caminho do vencedor, como no flyer)
       ctx.lineCap = 'square';
@@ -2810,9 +3273,10 @@
       const summary = getTournamentSummary();
 
       const canvas = document.createElement('canvas');
-      canvas.width = W;
-      canvas.height = H;
+      canvas.width = W * POSTER_RES;
+      canvas.height = H * POSTER_RES;
       const ctx = canvas.getContext('2d');
+      ctx.scale(POSTER_RES, POSTER_RES);
 
       drawPosterBackground(ctx, W, H, PosterState.theme);
       drawPosterCorners(ctx, W, H, u, theme.accent);
@@ -2901,13 +3365,14 @@
       // Chave escalada para caber na área livre
       const portrait = H > W;
       const areaTop = y + 24 * u, areaH = bottom - areaTop, areaW = W - pad * 2;
-      let layout = computePosterLayout(portrait);
+      const keys = posterSectionKeys();
+      let layout = computePosterLayout(portrait, PB.VGAP, keys);
       let s = Math.min(areaW / layout.width, areaH / layout.height);
       // Sobrou altura? Abre o espaçamento vertical para a chave ocupar a arte
       const spare = areaH / s - layout.height;
       if (spare > 0 && layout.gaps > 0) {
         const vgap = Math.min(PB.VGAP + spare / layout.gaps, PB.BLOCK_H * 2.2);
-        layout = computePosterLayout(portrait, vgap);
+        layout = computePosterLayout(portrait, vgap, keys);
         s = Math.min(areaW / layout.width, areaH / layout.height);
       }
       ctx.save();
@@ -2933,6 +3398,12 @@
     }
 
     function openPosterModal() {
+      if (!State.structure) return;
+      // Com 1 vida só existe a chave principal: não há o que separar
+      const multi = State.structure.sections.length > 1;
+      document.getElementById("posterContentRow").style.display = multi ? "" : "none";
+      document.getElementById("btnPosterLower").innerText = State.lives === 3 ? "▼ Só Inferiores" : "▼ Só Inferior";
+      if (!multi && PosterState.content !== 'all') switchPosterContent('all');
       document.getElementById("posterEventName").value = PosterState.eventName;
       document.getElementById("screenshotPreviewOverlay").classList.add("active");
       refreshPosterPreview();
@@ -2942,6 +3413,14 @@
       PosterState.format = format;
       document.querySelectorAll(".btn-format[data-format]").forEach(b => {
         b.classList.toggle("active", b.dataset.format === format);
+      });
+      refreshPosterPreview();
+    }
+
+    function switchPosterContent(content) {
+      PosterState.content = content;
+      document.querySelectorAll(".btn-format[data-content]").forEach(b => {
+        b.classList.toggle("active", b.dataset.content === content);
       });
       refreshPosterPreview();
     }
@@ -2990,7 +3469,8 @@
 
     function triggerChampionCelebration(winnerName, originBracket) {
       document.getElementById("championTeamName").innerText = winnerName;
-      document.getElementById("champStatBracket").innerText = originBracket === 'upper' ? 'INVICTO (UPPER)' : 'SUPERIORIDADE (LOWER)';
+      document.getElementById("champStatBracket").innerText =
+        originBracket === 'single' ? 'INVICTO' : (originBracket === 'upper' ? 'INVICTO (UPPER)' : 'SUPERIORIDADE (LOWER)');
       
       const overlay = document.getElementById("championModalOverlay");
       overlay.classList.add("active");
@@ -3076,54 +3556,334 @@
     // =========================================================================
 
     function generateTournament(shuffle = true) {
-      syncPlayersFromInputs();
+      syncPlayers();
 
-      // Resetar sem sortear mantém a mesma ordem e os mesmos BYEs (se os jogadores não mudaram)
-      const sameRoster = State.roster && State.roster.length === State.players.length &&
-        State.roster.every(name => State.players.includes(name));
+      // Resetar sem sortear mantém a mesma ordem e os mesmos BYEs (se a quantidade não mudou)
+      const sameRoster = Array.isArray(State.roster) && State.roster.length === State.playerCount &&
+        State.roster.every(i => typeof i === 'number' && i < State.playerCount);
       if (shuffle || !sameRoster) {
-        State.roster = shuffleArray(State.players);
+        State.roster = shuffleArray(State.players.map((_, i) => i));
         State.bracketSeed = Math.floor(Math.random() * 2 ** 31);
       }
-      const roster = [...State.roster];
 
-      State.structure = buildTournamentStructure(roster.length, seededRandom(State.bracketSeed));
+      State.structure = buildTournamentStructure(State.playerCount, seededRandom(State.bracketSeed), State.lives);
 
       initMatchGraph(State.structure);
-      seedUpperRound1(roster);
+      seedUpperRound1(State.roster);
       renderBracketDOM();
+      saveState();
 
       AudioEngine.playClick();
     }
 
-    document.addEventListener("DOMContentLoaded", () => {
+    function setLives(n) {
+      if (n === State.lives) return;
+      if (hasResults() && !confirm("Mudar o número de vidas remonta a chave e apaga os resultados já anotados. Continuar?")) return;
+      State.lives = n;
+      updateLivesUI();
+      generateTournament(false);   // mantém o mesmo sorteio de jogadores
+    }
+
+    function updateLivesUI() {
+      const info = LIVES_INFO[State.lives];
+      document.querySelectorAll(".lives-btn").forEach(b => {
+        b.classList.toggle("active", parseInt(b.dataset.lives) === State.lives);
+      });
+      document.getElementById("systemLabel").innerText = info.system;
+      document.getElementById("brandSystemLabel").innerText = `${info.sub} // DUELOS DE 10 ROUNDS`;
+      document.getElementById("hintRulesText").innerText = info.hint;
+    }
+
+    // =========================================================================
+    // SALVAMENTO (NAVEGADOR + ONLINE)
+    // =========================================================================
+
+    const STORAGE_KEY = 'clubpro_torneio_v2';
+
+    function snapshotState() {
+      return {
+        v: 2,
+        lives: State.lives,
+        playerCount: State.playerCount,
+        names: State.names.slice(0, 30).map(n => n || ""),
+        roster: State.roster,
+        bracketSeed: State.bracketSeed,
+        structure: State.structure,
+        matches: State.matches,
+        eventName: PosterState.eventName
+      };
+    }
+
+    function loadSnapshot(snap) {
+      State.lives = [1, 2, 3].includes(snap.lives) ? snap.lives : 2;
+      State.names = Array.isArray(snap.names) ? snap.names.map(n => n || "") : [];
+      State.roster = snap.roster;
+      State.bracketSeed = snap.bracketSeed || 0;
+      State.structure = (snap.structure && snap.structure.sections) ? snap.structure : null;
+      State.matches = snap.matches || {};
+      if (snap.eventName) PosterState.eventName = snap.eventName;
+
+      updatePlayerCountUI(snap.playerCount);
+      updateLivesUI();
+      if (State.structure) renderBracketDOM();
+      else generateTournament(false);
+    }
+
+    let saveTimer = null;
+    function saveState() {
+      if (!canEdit()) return;
+      clearTimeout(saveTimer);
+      saveTimer = setTimeout(() => {
+        const snap = snapshotState();
+        try { localStorage.setItem(STORAGE_KEY, JSON.stringify(snap)); } catch (e) {}
+        if (Online.enabled && Online.user) pushOnline(snap);
+      }, 150);
+    }
+
+    function restoreLocalOrDefault() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
+        if (saved && saved.v === 2) {
+          loadSnapshot(saved);
+          saveState();   // no modo online, publica o que estava salvo
+          return;
+        }
+      } catch (e) {}
+      updatePlayerCountUI(8);
+      updateLivesUI();
+      generateTournament(true);
+    }
+
+    // =========================================================================
+    // MODO ONLINE (FIREBASE): quem faz login edita, todo mundo acompanha ao vivo.
+    // Configuração em firebase-config.js — passo a passo em ONLINE.md
+    // =========================================================================
+
+    const TOURNAMENT_ID = (new URLSearchParams(location.search).get('t') || 'principal')
+      .replace(/[^\w-]/g, '').slice(0, 40) || 'principal';
+
+    const Online = {
+      enabled: false,
+      user: null,
+      ref: null,
+      remoteEmpty: false,
+      loaded: false,
+      warnedNoPermission: false,
+      clientId: Math.random().toString(36).slice(2) + Date.now().toString(36)
+    };
+
+    function canEdit() {
+      return !Online.enabled || !!Online.user;
+    }
+
+    function loadScript(src) {
+      return new Promise((resolve, reject) => {
+        const s = document.createElement('script');
+        s.src = src;
+        s.onload = resolve;
+        s.onerror = () => reject(new Error('Falha ao carregar ' + src));
+        document.head.appendChild(s);
+      });
+    }
+
+    function setLiveStatus(ok) {
+      document.getElementById("liveTag").style.display = Online.enabled ? "" : "none";
+      document.getElementById("liveDot").className = `dot ${ok ? 'live' : 'offline'}`;
+      const who = Online.user ? `ADMIN (${Online.user.email})` : 'VISUALIZAÇÃO';
+      document.getElementById("liveLabel").innerText = ok ? `AO VIVO // ${who}` : 'SEM CONEXÃO // RECONECTANDO...';
+    }
+
+    function applyAccessMode() {
+      document.body.classList.toggle("view-only", !canEdit());
+      const btn = document.getElementById("btnLogin");
+      btn.style.display = Online.enabled ? "" : "none";
+      btn.innerText = Online.user ? "🔓 Sair" : "🔒 Entrar (Admin)";
+      setLiveStatus(true);
+      if (State.structure) renderBracketDOM();   // mostra/esconde os botões de placar
+    }
+
+    function pushOnline(snap) {
+      Online.ref.set({
+        data: JSON.stringify(snap),
+        by: Online.clientId,
+        updatedAt: firebase.database.ServerValue.TIMESTAMP
+      }).catch(err => {
+        console.error("Erro ao salvar online:", err);
+        if (!Online.warnedNoPermission) {
+          Online.warnedNoPermission = true;
+          alert("Não foi possível salvar online. Confira se este usuário está cadastrado como admin no banco (veja ONLINE.md).\n\nErro: " + err.message);
+        }
+      });
+    }
+
+    async function initOnline() {
+      const cfg = window.FIREBASE_CONFIG;
+      if (!cfg || !cfg.apiKey) return false;
+
+      Online.enabled = true;
+      applyAccessMode();
+      showStageMessage("Conectando ao torneio ao vivo...");
+
+      const base = 'https://www.gstatic.com/firebasejs/10.12.2/';
+      try {
+        await loadScript(base + 'firebase-app-compat.js');
+        await Promise.all([
+          loadScript(base + 'firebase-auth-compat.js'),
+          loadScript(base + 'firebase-database-compat.js')
+        ]);
+        firebase.initializeApp(cfg);
+      } catch (err) {
+        console.error(err);
+        setLiveStatus(false);
+        showStageMessage("Não foi possível conectar ao servidor. Verifique a internet e recarregue a página.");
+        return true;
+      }
+
+      const db = firebase.database();
+      Online.ref = db.ref(`torneios/${TOURNAMENT_ID}`);
+
+      db.ref('.info/connected').on('value', snap => setLiveStatus(snap.val() === true));
+
+      firebase.auth().onAuthStateChanged(user => {
+        Online.user = user;
+        applyAccessMode();
+        // Banco ainda vazio: o admin publica a chave que tem no navegador
+        if (user && Online.remoteEmpty) {
+          if (State.structure) saveState();
+          else restoreLocalOrDefault();
+        }
+      });
+
+      Online.ref.on('value', snap => {
+        const val = snap.val();
+        Online.remoteEmpty = !val || !val.data;
+        if (Online.remoteEmpty) {
+          if (Online.user) {
+            if (State.structure) saveState();
+            else restoreLocalOrDefault();
+          } else if (!State.structure) {
+            showStageMessage("Nenhum chaveamento publicado ainda. Aguarde o organizador.");
+          }
+          return;
+        }
+        if (val.by === Online.clientId) return;   // eco da própria alteração
+
+        const championBefore = getChampionName();
+        try {
+          loadSnapshot(JSON.parse(val.data));
+        } catch (err) {
+          console.error("Dados online inválidos:", err);
+          return;
+        }
+        // Quem está assistindo também vê a comemoração quando sai o campeão
+        const champion = getChampionName();
+        if (Online.loaded && champion && !championBefore) {
+          const gf = State.matches[State.structure.finalId];
+          AudioEngine.playWin();
+          triggerChampionCelebration(champion, State.lives === 1 ? 'single' : (gf.winner === 'teamA' ? 'upper' : 'lower'));
+        }
+        Online.loaded = true;
+      }, err => {
+        console.error(err);
+        setLiveStatus(false);
+      });
+
+      return true;
+    }
+
+    function openLoginModal() {
+      if (!Online.enabled) return;
+      if (Online.user) {
+        if (confirm("Sair do modo administrador?")) firebase.auth().signOut();
+        return;
+      }
+      document.getElementById("loginError").innerText = "";
+      document.getElementById("loginModalOverlay").classList.add("active");
+      setTimeout(() => document.getElementById("loginEmail").focus(), 50);
+    }
+
+    function closeLoginModal() {
+      document.getElementById("loginModalOverlay").classList.remove("active");
+      document.getElementById("loginPassword").value = "";
+    }
+
+    async function submitLogin(e) {
+      e.preventDefault();
+      if (typeof firebase === 'undefined') return;
+      const btn = document.getElementById("btnLoginSubmit");
+      const errEl = document.getElementById("loginError");
+      errEl.innerText = "";
+      btn.disabled = true;
+      try {
+        await firebase.auth().signInWithEmailAndPassword(
+          document.getElementById("loginEmail").value.trim(),
+          document.getElementById("loginPassword").value
+        );
+        closeLoginModal();
+      } catch (err) {
+        const code = err && err.code || '';
+        errEl.innerText = (code.includes('invalid') || code.includes('wrong-password') || code.includes('user-not-found'))
+          ? "E-mail ou senha incorretos."
+          : code.includes('too-many-requests') ? "Muitas tentativas. Aguarde um pouco e tente de novo."
+          : "Não foi possível entrar: " + (err.message || err);
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", async () => {
       // Controles do Slider e Stepper de Jogadores (4 a 30)
       document.getElementById("btnDecCount").addEventListener("click", () => {
-        updatePlayerCountUI(State.playerCount - 1);
-        generateTournament(true);
+        changePlayerCount(State.playerCount - 1);
       });
       document.getElementById("btnIncCount").addEventListener("click", () => {
-        updatePlayerCountUI(State.playerCount + 1);
-        generateTournament(true);
+        changePlayerCount(State.playerCount + 1);
       });
       document.getElementById("playerCountSlider").addEventListener("input", (e) => {
-        updatePlayerCountUI(parseInt(e.target.value));
-        generateTournament(true);
+        changePlayerCount(parseInt(e.target.value));
       });
 
       // Botões rápidos de quantidade (4, 8, 12, 16, 20, 24, 30)
       document.querySelectorAll(".size-mini-btn").forEach(btn => {
         btn.addEventListener("click", (e) => {
-          updatePlayerCountUI(parseInt(e.target.dataset.sz));
-          generateTournament(true);
+          changePlayerCount(parseInt(e.target.dataset.sz));
         });
+      });
+
+      // Vidas (1, 2 ou 3 chaves)
+      document.querySelectorAll(".lives-btn").forEach(btn => {
+        btn.addEventListener("click", () => setLives(parseInt(btn.dataset.lives)));
+      });
+
+      // Nomes: digitar atualiza a chave sem sortear de novo
+      const grid = document.getElementById("teamsInputGrid");
+      let nameTimer = null;
+      grid.addEventListener("input", (e) => {
+        if (!e.target.classList.contains("team-input-field")) return;
+        State.names[parseInt(e.target.dataset.index)] = e.target.value;
+        clearTimeout(nameTimer);
+        nameTimer = setTimeout(() => {
+          refreshNamesInBracket();
+          saveState();
+        }, 300);
+      });
+      // Colar vários nomes de uma vez numa vaga distribui a partir dela
+      grid.addEventListener("paste", (e) => {
+        if (!e.target.classList.contains("team-input-field")) return;
+        const list = parseNameList((e.clipboardData || window.clipboardData).getData("text"));
+        if (list.length < 2) return;
+        e.preventDefault();
+        const start = parseInt(e.target.dataset.index);
+        applyNameList(list, start, Math.max(State.playerCount, start + list.length));
       });
 
       // Botão Gerar / Sortear
       document.getElementById("btnGenerateTournament").addEventListener("click", () => {
+        if (hasResults() && !confirm("Sortear de novo apaga os resultados já anotados. Continuar?")) return;
         generateTournament(true);
       });
       document.getElementById("btnQuickShuffle").addEventListener("click", () => {
+        if (hasResults() && !confirm("Sortear de novo apaga os resultados já anotados. Continuar?")) return;
         generateTournament(true);
       });
 
@@ -3133,20 +3893,16 @@
         panel.style.display = (panel.style.display === "none") ? "block" : "none";
       });
 
-      // Limpar e Preencher Automático
-      document.getElementById("btnClearNames").addEventListener("click", () => {
-        document.querySelectorAll(".team-input-field").forEach((inp) => {
-          inp.value = "";
-        });
-        syncPlayersFromInputs();
-      });
+      // Colar lista e Limpar nomes
+      document.getElementById("btnPasteList").addEventListener("click", openPasteModal);
+      document.getElementById("pasteTextarea").addEventListener("input", updatePasteInfo);
 
-      document.getElementById("btnFillSample").addEventListener("click", () => {
-        document.querySelectorAll(".team-input-field").forEach((inp, idx) => {
-          inp.value = `JOGADOR ${idx + 1}`;
-        });
-        syncPlayersFromInputs();
-        generateTournament(true);
+      document.getElementById("btnClearNames").addEventListener("click", () => {
+        if (!confirm("Apagar todos os nomes digitados?")) return;
+        State.names = [];
+        renderPlayerInputs();
+        refreshNamesInBracket();
+        saveState();
       });
 
       // Resetar Resultados
@@ -3160,9 +3916,8 @@
       document.getElementById("btnExportJSON").addEventListener("click", () => {
         const backupData = {
           tournament: "CLUB PRO DUELOS 10 ROUNDS",
-          playerCount: State.playerCount,
           players: State.players,
-          matches: State.matches,
+          ...snapshotState(),
           savedAt: new Date().toISOString()
         };
         const blob = new Blob([JSON.stringify(backupData, null, 2)], { type: "application/json" });
@@ -3181,13 +3936,18 @@
       document.getElementById("posterEventName").addEventListener("input", (e) => {
         PosterState.eventName = e.target.value;
         try { localStorage.setItem('clubpro_poster_event', e.target.value); } catch (err) {}
+        saveState();
         clearTimeout(posterNameTimer);
         posterNameTimer = setTimeout(refreshPosterPreview, 250);
       });
 
-      // Inicialização Primária com 8 jogadores
-      updatePlayerCountUI(8);
-      generateTournament(true);
+      // Login do administrador (modo online)
+      document.getElementById("btnLogin").addEventListener("click", openLoginModal);
+      document.getElementById("loginForm").addEventListener("submit", submitLogin);
+
+      // Online: a chave vem do servidor. Local: restaura o que ficou salvo no navegador
+      const online = await initOnline();
+      if (!online) restoreLocalOrDefault();
     });
   </script>
 </body>
