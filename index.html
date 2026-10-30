@@ -1617,6 +1617,7 @@
         </svg>
         Sortear Chave
       </button>
+      <button class="btn-tactical primary" id="btnPublish" style="display:none;">📡 Iniciar Campeonato</button>
       <button class="btn-tactical secondary" id="btnLogin" style="display:none;">🔒 Entrar (Admin)</button>
     </div>
   </header>
@@ -3636,7 +3637,8 @@
       saveTimer = setTimeout(() => {
         const snap = snapshotState();
         try { localStorage.setItem(STORAGE_KEY, JSON.stringify(snap)); } catch (e) {}
-        if (Online.enabled && Online.user) pushOnline(snap);
+        // Só transmite depois que o campeonato foi iniciado (antes disso, só o admin vê)
+        if (Online.enabled && Online.user && Online.live) pushOnline(snap);
       }, 150);
     }
 
@@ -3667,6 +3669,11 @@
       user: null,
       ref: null,
       remoteEmpty: false,
+      live: false,          // campeonato iniciado: há chave publicada no banco
+      connected: false,
+      syncing: false,
+      lastSync: null,
+      syncError: null,
       loaded: false,
       warnedNoPermission: false,
       clientId: Math.random().toString(36).slice(2) + Date.now().toString(36)
@@ -3687,10 +3694,40 @@
     }
 
     function setLiveStatus(ok) {
+      Online.connected = ok;
+      if (ok) Online.everConnected = true;
+      updateSyncUI();
+    }
+
+    // Selo do topo + botão "Iniciar Campeonato / Publicar Agora"
+    function updateSyncUI() {
       document.getElementById("liveTag").style.display = Online.enabled ? "" : "none";
-      document.getElementById("liveDot").className = `dot ${ok ? 'live' : 'offline'}`;
-      const who = Online.user ? `ADMIN (${Online.user.email})` : 'VISUALIZAÇÃO';
-      document.getElementById("liveLabel").innerText = ok ? `AO VIVO // ${who}` : 'SEM CONEXÃO // RECONECTANDO...';
+      const dot = document.getElementById("liveDot");
+      const label = document.getElementById("liveLabel");
+      const btn = document.getElementById("btnPublish");
+      btn.style.display = (Online.enabled && Online.user) ? "" : "none";
+      btn.innerText = Online.live ? "📡 Publicar Agora" : "📡 Iniciar Campeonato";
+      btn.classList.toggle("primary", !Online.live);
+      btn.classList.toggle("secondary", Online.live);
+
+      let text, cls;
+      if (!Online.connected) {
+        text = Online.everConnected ? 'SEM CONEXÃO // RECONECTANDO...' : 'CONECTANDO...';
+        cls = Online.everConnected ? 'offline' : '';
+      } else if (!Online.user) {
+        text = Online.live ? 'AO VIVO // VISUALIZAÇÃO' : 'AGUARDANDO INÍCIO DO CAMPEONATO'; cls = Online.live ? 'live' : '';
+      } else if (Online.syncError) {
+        text = 'ADMIN // ⚠ ERRO AO PUBLICAR (CLIQUE EM PUBLICAR AGORA)'; cls = 'offline';
+      } else if (!Online.live) {
+        text = 'ADMIN // CAMPEONATO NÃO INICIADO (SÓ VOCÊ VÊ)'; cls = '';
+      } else if (Online.syncing) {
+        text = 'ADMIN // PUBLICANDO...'; cls = 'live';
+      } else {
+        const t = Online.lastSync ? ` ÀS ${Online.lastSync.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}` : '';
+        text = `ADMIN // ✓ AO VIVO, PUBLICADO${t}`; cls = 'live';
+      }
+      dot.className = `dot ${cls}`;
+      label.innerText = text;
     }
 
     function applyAccessMode() {
@@ -3698,22 +3735,62 @@
       const btn = document.getElementById("btnLogin");
       btn.style.display = Online.enabled ? "" : "none";
       btn.innerText = Online.user ? "🔓 Sair" : "🔒 Entrar (Admin)";
-      setLiveStatus(true);
+      updateSyncUI();
       if (State.structure) renderBracketDOM();   // mostra/esconde os botões de placar
     }
 
-    function pushOnline(snap) {
-      Online.ref.set({
+    function publishErrorMessage(err) {
+      const denied = /permission/i.test((err && (err.code || err.message)) || '');
+      if (denied && Online.user) {
+        return "Sem permissão para publicar.\n\nVocê está logado, mas este usuário não está na lista \"admins\" do banco.\n\n" +
+          `Seu UID: ${Online.user.uid}\n\n` +
+          "No Firebase: Realtime Database → aba Dados → admins → adicione esse UID com o valor true.";
+      }
+      return "Não foi possível publicar online.\n\nErro: " + ((err && err.message) || err);
+    }
+
+    function pushOnline(snap, manual = false) {
+      Online.syncing = true;
+      updateSyncUI();
+      return Online.ref.set({
         data: JSON.stringify(snap),
         by: Online.clientId,
         updatedAt: firebase.database.ServerValue.TIMESTAMP
+      }).then(() => {
+        Online.live = true;
+        Online.syncing = false;
+        Online.syncError = null;
+        Online.lastSync = new Date();
+        Online.warnedNoPermission = false;
+        updateSyncUI();
+        return true;
       }).catch(err => {
         console.error("Erro ao salvar online:", err);
-        if (!Online.warnedNoPermission) {
+        Online.syncing = false;
+        Online.syncError = err;
+        updateSyncUI();
+        if (manual || !Online.warnedNoPermission) {
           Online.warnedNoPermission = true;
-          alert("Não foi possível salvar online. Confira se este usuário está cadastrado como admin no banco (veja ONLINE.md).\n\nErro: " + err.message);
+          alert(publishErrorMessage(err));
         }
+        return false;
       });
+    }
+
+    async function publishNow() {
+      if (!Online.user || !State.structure) return;
+      if (!Online.live && !confirm("Iniciar o campeonato?\n\nA partir de agora todo mundo com o link vê a chave, e cada resultado aparece ao vivo.")) return;
+      clearTimeout(saveTimer);
+      const snap = snapshotState();
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(snap)); } catch (e) {}
+      const btn = document.getElementById("btnPublish");
+      btn.disabled = true;
+      const ok = await pushOnline(snap, true);
+      btn.disabled = false;
+      if (ok) {
+        btn.innerText = "✓ Publicado!";
+        setTimeout(updateSyncUI, 2000);
+      }
     }
 
     async function initOnline() {
@@ -3746,23 +3823,23 @@
 
       firebase.auth().onAuthStateChanged(user => {
         Online.user = user;
+        Online.syncError = null;
         applyAccessMode();
-        // Banco ainda vazio: o admin publica a chave que tem no navegador
-        if (user && Online.remoteEmpty) {
-          if (State.structure) saveState();
-          else restoreLocalOrDefault();
-        }
+        // Campeonato não iniciado: o admin prepara a chave do navegador e depois clica em "Iniciar"
+        if (user && Online.remoteEmpty && !State.structure) restoreLocalOrDefault();
       });
 
       Online.ref.on('value', snap => {
         const val = snap.val();
         Online.remoteEmpty = !val || !val.data;
+        Online.live = !Online.remoteEmpty;
+        updateSyncUI();
         if (Online.remoteEmpty) {
           if (Online.user) {
-            if (State.structure) saveState();
-            else restoreLocalOrDefault();
-          } else if (!State.structure) {
-            showStageMessage("Nenhum chaveamento publicado ainda. Aguarde o organizador.");
+            if (!State.structure) restoreLocalOrDefault();
+          } else {
+            State.structure = null;
+            showStageMessage("O campeonato ainda não começou. Esta página atualiza sozinha quando o organizador iniciar.");
           }
           return;
         }
@@ -3943,6 +4020,7 @@
 
       // Login do administrador (modo online)
       document.getElementById("btnLogin").addEventListener("click", openLoginModal);
+      document.getElementById("btnPublish").addEventListener("click", publishNow);
       document.getElementById("loginForm").addEventListener("submit", submitLogin);
 
       // Online: a chave vem do servidor. Local: restaura o que ficou salvo no navegador
